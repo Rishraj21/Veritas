@@ -1,6 +1,6 @@
 import json
 import pytest
-from physcheck.cli import main
+from veritas.cli import main
 
 CASE={'id':'demo','benchmark':'couette_flow','parameters':{'wall_speed':2,'gap':1,'y':.5},'observed':1}
 
@@ -16,7 +16,7 @@ def test_cli_json(tmp_path,capsys,observed,exit_code):
 def test_cli_invalid(tmp_path,capsys,text):
     p=tmp_path/'case.json';p.write_text(text)
     assert main(['validate',str(p)])==2
-    assert 'physcheck:' in capsys.readouterr().err
+    assert 'veritas:' in capsys.readouterr().err
 
 def test_cli_list(capsys):
     assert main(['list'])==0

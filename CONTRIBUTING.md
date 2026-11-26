@@ -6,7 +6,7 @@ We welcome real engineering and software contributions. Start with an issue desc
 
 1. Specify governing equations, boundary conditions, sign convention, units and validity range.
 2. Supply an independently derived expected result or openly licensed reference data, with source and provenance.
-3. Implement a documented benchmark in `src/physcheck/benchmarks.py` and add parameter checks.
+3. Implement a documented benchmark in `src/veritas/benchmarks.py` and add parameter checks.
 4. Add tests for a known solution, invalid parameters, zero/sign/boundary cases where relevant, and tolerance behaviour.
 5. Add a runnable example and catalogue documentation. Label synthetic, analytical, and real solver-generated observations separately.
 6. Submit the change for technical review. Run `python -m pytest -q` first.

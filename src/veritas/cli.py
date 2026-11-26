@@ -21,7 +21,7 @@ def _unique_object(pairs):
 
 
 def main(argv=None):
-    parser = argparse.ArgumentParser(prog="physcheck", description="Analytical simulation verification checks")
+    parser = argparse.ArgumentParser(prog="veritas", description="Analytical simulation verification checks")
     subs = parser.add_subparsers(dest="command", required=True)
     subs.add_parser("list", help="List available benchmarks")
     describe = subs.add_parser("describe", help="Show benchmark parameters and assumptions")
@@ -62,7 +62,7 @@ def main(argv=None):
             print(f"{passed}/{len(results)} checks passed. Review benchmark assumptions before interpreting results.")
         return 0 if passed == len(results) else 1
     except (OSError, UnicodeError, ValueError, TypeError) as exc:
-        print(f"physcheck: {exc}", file=sys.stderr)
+        print(f"veritas: {exc}", file=sys.stderr)
         return 2
 
 

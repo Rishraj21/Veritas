@@ -1,6 +1,6 @@
 from math import pi, exp, sqrt, tanh
 import pytest
-from physcheck import BENCHMARKS, reference, check, CheckError, estimate_order
+from veritas import BENCHMARKS, reference, check, CheckError, estimate_order
 
 # Independent hand-evaluable cases; no expected results obtained from the implementation.
 CASES = [
