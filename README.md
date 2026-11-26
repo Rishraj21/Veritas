@@ -4,6 +4,16 @@
 
 Veritas compares scalar outputs from a simulation with transparent closed-form reference solutions. It also includes educational numerical solvers; it is not a certification system or a replacement for experimental validation. A passing comparison applies only to the specified benchmark, assumptions and tolerance.
 
+## Browser-first numerical laboratory
+
+No Python package or network service is required for the local browser solvers. From the repository root, run:
+
+```sh
+python -m http.server 8000 --directory web
+```
+
+Open http://localhost:8000 in a modern browser. The Poisson benchmark runs geometric multigrid, JS matrix-free CG or a WASM stencil-backed CG in a dedicated worker with cancellation and a numerical-buffer budget. The local-file tool streams little-endian Float64 values. CSR and tensor contractions are available as worker/library APIs. General symmetric partial eigenpairs are provided by the optional Python/SciPy adapter, not a browser endpoint. See [browser architecture](docs/development/browser-architecture.md). Numerical kernels tested with `node --test tests/browser.test.mjs`; full UI smoke test is configured separately.
+
 ## Quick start
 
 Python 3.10+; no mandatory runtime dependencies. Optional acceleration is available. The distribution is named `veritas-eng`; Python imports and the CLI remain `veritas`. Install from this repository:

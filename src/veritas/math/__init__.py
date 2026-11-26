@@ -30,3 +30,6 @@ __all__ += ["CGResult", "conjugate_gradient", "PoissonStencil2D"]
 
 from .hybrid import HybridResult, solve_sparse, poisson_operator
 __all__ += ["HybridResult", "solve_sparse", "poisson_operator"]
+
+from .spectral import EigenResult, partial_eigenpairs
+__all__ += ["EigenResult", "partial_eigenpairs"]

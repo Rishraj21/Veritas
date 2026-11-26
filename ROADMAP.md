@@ -51,6 +51,10 @@ See [numerical methods coverage ledger](docs/curriculum/numerical-methods.md). P
 
 See [architecture and integration gates](docs/development/hybrid-architecture.md). Keep dependency-free baseline, optional compiled backends, structure-aware sparse/matrix-free methods, double precision defaults, independent residual checks and explicit memory/accuracy tradeoffs. Integrate experimentally verified techniques incrementally; do not present research prototypes as production features.
 
+## Browser-first delivery
+
+The initial product is a static browser application using ES modules, dedicated Web Workers, Float64Array storage, transferable result buffers and small WebAssembly kernels where measurements justify them. Python remains an independent reference and optional advanced backend, not a mandatory browser download. General partial eigenproblems use the optional SciPy/ARPACK adapter until a browser-native equivalent is validated. Do not add a mandatory remote execution service or upload user data without explicit opt-in. See [browser architecture](docs/development/browser-architecture.md).
+
 ## Package architecture
 
 Keep a single Python distribution veritas-eng and namespace veritas. New numerical algorithms live under veritas.math; existing veritas.core, veritas.units and veritas.convergence remain modules to preserve compatibility. Domain subpackages such as veritas.fluids, veritas.cfd, veritas.solids, veritas.fea, veritas.heat, veritas.thermo and veritas.robotics; shared numerical/property layers. Existing analytical benchmark registry should call tested calculator functions rather than duplicate equations. Solvers and external adapters are separately named and optional. Use structured results and consistent units; maintain compatibility for current public API.
