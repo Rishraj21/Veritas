@@ -21,3 +21,5 @@ jobs:
       - run: veritas validate examples/beam_units.json --json
 
       - run: python examples/radial_fvm.py
+
+      - run: python examples/numerical_foundation.py

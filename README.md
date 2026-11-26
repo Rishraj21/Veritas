@@ -79,7 +79,19 @@ slope = derivative(lambda x: x*x, 3, h=1e-4)
 value = linear_interpolate([0, 2], [10, 20], 1)
 ```
 
-Scalar educational algorithms with explicit limits; see the numerical methods coverage ledger for assumptions and test status.
+Small educational numerical algorithms with explicit limits; see the numerical methods coverage ledger for assumptions and test status.
+
+```python
+from veritas.math import solve_linear, solve_ivp, error_norms, stability_factor
+
+linear = solve_linear([[0, 2], [1, 3]], [4, 7], condition=True)
+print(linear.solution, linear.backward_error, linear.condition_inf)
+
+ode = solve_ivp(lambda t, y: -2*y, (0, 1), 1.0, n=100, method="rk4")
+print(ode.y[-1], ode.evaluations)
+```
+
+The linear solver uses scaled partial-pivoted LU and provides residual diagnostics. Fixed-step ODE solvers support scalar and vector systems with Euler, midpoint, Heun and RK4. They are not adaptive or suitable for general stiff problems. Run `python examples/numerical_foundation.py` for a reproducible example.
 
 ## Engineering curriculum
 
