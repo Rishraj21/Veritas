@@ -1,6 +1,6 @@
 # Veritas
 
-**Solver-independent analytical verification checks for engineering simulations.**
+**Open-source engineering computation and simulation verification.**
 
 Veritas compares scalar outputs from a simulation with transparent closed-form reference solutions. It is intentionally not a solver, a certification system, or a replacement for experimental validation. A passing comparison applies only to the specified benchmark, assumptions and tolerance.
 
@@ -66,6 +66,10 @@ Use `veritas describe <id>` for formulas, units and assumptions. See [benchmark 
 ## Independent numerical example
 
 Run `python examples/radial_fvm.py` for a reproducible finite-volume pipe-flow solve on four grids, followed by an analytical comparison and observed convergence order. See [numerical example](docs/numerical-example.md). It is an educational numerical solver, not an OpenFOAM/CalculiX integration.
+
+## Engineering curriculum
+
+The [roadmap](ROADMAP.md) defines the staged expansion from introductory fluid mechanics through CFD, solids, FEA, thermal sciences and robotics. The [fluid mechanics coverage plan](docs/curriculum/fluid-mechanics.md) is the first implementation target. These are planned capabilities, not claims of current coverage.
 
 ## Development
 
