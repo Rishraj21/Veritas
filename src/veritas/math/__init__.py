@@ -14,3 +14,7 @@ from .errors import ErrorNorms, error_norms
 
 __all__ += ["LUFactor", "LinearResult", "lu_factor", "solve_linear",
             "ODEResult", "solve_ivp", "stability_factor", "ErrorNorms", "error_norms"]
+
+from .banded import Tridiagonal, TridiagonalFactor, IterativeResult, stationary_solve
+from .interpolation import LinearInterpolator, NewtonInterpolator
+__all__ += ["Tridiagonal", "TridiagonalFactor", "IterativeResult", "stationary_solve", "LinearInterpolator", "NewtonInterpolator"]

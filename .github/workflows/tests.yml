@@ -23,3 +23,5 @@ jobs:
       - run: python examples/radial_fvm.py
 
       - run: python examples/numerical_foundation.py
+
+      - run: python examples/structured_solvers.py

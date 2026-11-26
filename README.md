@@ -93,6 +93,21 @@ print(ode.y[-1], ode.evaluations)
 
 The linear solver uses scaled partial-pivoted LU and provides residual diagnostics. Fixed-step ODE solvers support scalar and vector systems with Euler, midpoint, Heun and RK4. They are not adaptive or suitable for general stiff problems. Run `python examples/numerical_foundation.py` for a reproducible example.
 
+### Structured linear systems and repeated interpolation
+
+```python
+from veritas.math import Tridiagonal, stationary_solve, LinearInterpolator
+
+a = Tridiagonal([-1, -1], [4, 4, 4], [-1, -1])
+factor = a.factor()
+x = factor.solve([3, 2, 3])
+iterative = stationary_solve(a, [3, 2, 3], method="gauss_seidel")
+p = LinearInterpolator([0, 10, 20], [100, 120, 140])
+print(x, iterative.converged, p(5))
+```
+
+Thomas elimination uses three diagonal arrays, not a dense matrix. It requires safe pivots; iterative methods do not guarantee convergence. Reuse the factors or interpolator for repeated queries. Run `python examples/structured_solvers.py` to compare measured allocations and residuals.
+
 ## Engineering curriculum
 
 The [roadmap](ROADMAP.md) defines the staged expansion from introductory fluid mechanics through CFD, solids, FEA, thermal sciences and robotics. Phase 0 is the [numerical methods foundation](docs/curriculum/numerical-methods.md), followed by the [fluid mechanics coverage plan](docs/curriculum/fluid-mechanics.md). These are planned capabilities, not claims of current coverage.
