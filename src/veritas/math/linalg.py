@@ -99,7 +99,17 @@ def solve_linear(matrix,b,*,pivot_tol=1e-14,condition=False):
     kappa=None
     if condition:
         n=len(a)
-        cols=[factor.solve(tuple(float(i==j) for i in range(n))) for j in range(n)]
-        invnorm=max(fsum(abs(col[i]) for col in cols) for i in range(n))
+        # Accumulate inverse row sums one column at a time; no inverse storage.
+        # Compensated sums limit rounding accumulation over many columns.
+        sums=[0.0]*n
+        corrections=[0.0]*n
+        for j in range(n):
+            col=factor.solve(float(i==j) for i in range(n))
+            for i,v in enumerate(col):
+                term=abs(v)-corrections[i]
+                updated=finite(sums[i]+term,"inverse row sum")
+                corrections[i]=(updated-sums[i])-term
+                sums[i]=updated
+        invnorm=max(sums)
         kappa=finite(an*invnorm,"condition number")
     return LinearResult(x,r,eta,kappa)

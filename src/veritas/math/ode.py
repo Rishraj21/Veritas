@@ -10,13 +10,15 @@ class ODEResult:
     method: str
     evaluations: int
 
-def solve_ivp(f,t_span,y0,*,n=100,method="rk4"):
+def solve_ivp(f,t_span,y0,*,n=100,method="rk4",store_every=1):
     """Integrate y'=f(t,y) with n fixed steps (Euler, midpoint, Heun, RK4).
 
     Scalar input yields scalar samples; vector input yields tuple samples.
     Supports reverse time. No adaptivity, events, stiffness or error control.
+    store_every retains every kth step plus both endpoints; stepping is unchanged.
     """
     n=count(n,"n")
+    store_every=count(store_every,"store_every")
     if method not in ("euler","midpoint","heun","rk4"):
         raise ValueError("Unknown ODE method")
     a,b=(finite(t,"time") for t in t_span)
@@ -45,8 +47,8 @@ def solve_ivp(f,t_span,y0,*,n=100,method="rk4"):
     if a==b:
         return ODEResult(tuple(ts),tuple(ys),method,0)
     span=finite(b-a,"time span")
+    t=a
     for i in range(n):
-        t=ts[-1]
         nxt=b if i==n-1 else finite(a+span*((i+1)/n),"time node")
         h=finite(nxt-t,"time step")
         if h==0 or (h>0)!=(span>0):
@@ -66,7 +68,9 @@ def solve_ivp(f,t_span,y0,*,n=100,method="rk4"):
             k4=rhs(nxt,advance(y,k3,h))
             slope=tuple(fsum((u/6,v/3,w/3,z/6)) for u,v,w,z in zip(k1,k2,k3,k4))
             y=advance(y,slope,h)
-        ts.append(nxt); ys.append(public(y))
+        t=nxt
+        if (i+1)%store_every==0 or i==n-1:
+            ts.append(nxt); ys.append(public(y))
     return ODEResult(tuple(ts),tuple(ys),method,calls)
 
 def stability_factor(z,method="rk4"):

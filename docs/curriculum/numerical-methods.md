@@ -8,8 +8,8 @@ Scope reference: T. A. Driscoll and R. J. Braun, Fundamentals of Numerical Compu
 | NM02 | Quadrature | trapezoidal, midpoint, simpson, simpson38 | Implemented; CI passed at 5fe413c |
 | NM03 | Differentiation | derivative (forward/backward/central), second_derivative | Implemented; CI passed at 5fe413c |
 | NM04 | Interpolation | linear_interpolate, newton_interpolate | Implemented; CI passed at 5fe413c |
-| NM05 | Linear algebra | lu_factor, solve_linear, residual/backward error, optional infinity condition number; eigenvalues pending | Partial; new CI required |
-| NM06 | ODE | solve_ivp: Euler, midpoint RK2, Heun RK2, classical RK4; adaptive and stiff methods pending | Partial; new CI required |
+| NM05 | Linear algebra | lu_factor, solve_linear, residual/backward error, optional infinity condition number; eigenvalues pending | Partial; CI passed at b67e284 |
+| NM06 | ODE | solve_ivp: Euler, midpoint RK2, Heun RK2, classical RK4; adaptive and stiff methods pending | Partial; CI passed at b67e284 |
 | NM07 | PDE | FDM/FVM prototypes, stability, manufactured solutions | Planned |
 | NM08 | Numerical error | observed convergence, error norms, roundoff, uncertainty | Discrete error norms and scalar ODE stability added; existing three-grid convergence; uncertainty pending |
 | NM09 | Optimization | bounded scalar minimization, constrained optimization interfaces | Planned |
@@ -34,4 +34,13 @@ Theory references: Driscoll and Braun, Fundamentals of Numerical Computation, se
 - Absolute stability polynomial R(z)=sum(z^j/j!,j=0..p) for these methods, p=1,2,2,4. The criterion |R(z)|<=1 applies to the scalar linear test equation; it is not a guarantee of nonlinear or nonnormal-system stability.
 - Error norms: L1=sum(|e|), L2=sqrt(sum(e^2)), Linf=max(|e|), MAE=L1/n, RMSE=L2/sqrt(n), relative L2=L2/||reference||2 (undefined for zero reference). Samples must be paired and unit-compatible; these are not volume-weighted field norms.
 
-Tests: tests/test_math_linear_ode.py covers pivoted factor reconstruction, reuse, conditioning, singularity, order under step refinement, vector oscillator, reversed time, stability and invalid inputs. Reproduce examples using python examples/numerical_foundation.py. New tests are awaiting CI at the time of this commit.
+Tests: tests/test_math_linear_ode.py covers pivoted factor reconstruction, reuse, conditioning, singularity, order under step refinement, vector oscillator, reversed time, stability and invalid inputs. Reproduce examples using python examples/numerical_foundation.py. CI passed at b67e284.
+
+## Efficiency review
+
+- Quadrature streams weighted samples into math.fsum rather than materializing lists. Linear work, no sample-sized temporary array (fsum maintains floating-point partial sums).
+- LU factors remain packed; condition diagnostics accumulate inverse row sums one column at a time with compensated addition. O(n) auxiliary storage beyond factors, rather than O(n^2) inverse columns; time remains O(n^3).
+- Error norms consume paired iterators in one pass with constant auxiliary storage, compensated L1 and scaled hypot for L2. No materialized samples; mismatched lengths still rejected.
+- Fixed-step ODE integration retains all states by default. store_every=k reduces saved samples to O((n/k+1)*d) for state dimension d, without changing integration steps or accuracy. k>=n retains endpoints only; internal stage storage O(d). No dense output or interpolation promised.
+
+Memory regression checks use tracemalloc with generous absolute limits to detect reintroduced sample-sized arrays. These are not production performance benchmarks. Future changes should report input size, wall time, peak memory, error and convergence, and distinguish theoretical complexity from measurements.
