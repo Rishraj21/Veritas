@@ -16,7 +16,18 @@ veritas validate examples/passing.json
 veritas validate examples/demo.json --json
 ```
 
-The demo intentionally includes one failed check. Exit codes: `0` all checks pass, `1` at least one check fails, `2` invalid input or CLI usage. All parameters and observations must already be in the documented SI units; unit conversion and dimensional validation are not yet implemented.
+The demo intentionally includes one failed check. Exit codes: `0` all checks pass, `1` at least one check fails, `2` invalid input or CLI usage. Numeric inputs default to the documented SI units. Explicit tagged quantities are checked against a limited, dimension-specific unit whitelist and converted to SI. Unsupported units are rejected; general unit-expression parsing is not supported.
+
+## Unit-aware JSON and CSV
+
+```sh
+veritas validate examples/beam_units.json --json
+veritas validate examples/beam_units.csv --json
+```
+
+A quantity may be a number in SI or an object such as `{"value": 200, "unit": "GPa"}`. The same applies to observed values and absolute tolerance. Absolute temperature uses `degC`/`degF`; temperature tolerance uses `delta_degC`/`delta_degF` or `K`. Relative tolerance is dimensionless and always refers to the reference expressed in SI.
+
+CSV uses one case per row: `benchmark`, `observed`, optional `id`, `observed_unit`, `rtol`, `atol`, `atol_unit`, and `param.NAME` plus optional `param.NAME.unit` columns. Blank columns for parameters belonging to other benchmarks are permitted, but unexpected nonblank parameters, duplicate headers and malformed rows are rejected. See [input format](docs/input-format.md) for details.
 
 ## Python API
 

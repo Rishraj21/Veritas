@@ -2,6 +2,7 @@
 from dataclasses import asdict, dataclass
 from collections.abc import Mapping
 from .benchmarks import BENCHMARKS, finite_number, reference
+from .units import to_si
 
 
 class CheckError(ValueError):
@@ -28,14 +29,15 @@ class CheckResult:
 def check(benchmark, parameters, observed, *, rtol=0.01, atol=0.0):
     """Pass iff |observed-reference| <= atol + rtol*|reference|.
 
-    atol uses the benchmark output SI unit. Relative error is undefined at
+    Numeric atol uses the benchmark output SI unit; tagged values use difference units. Relative error is undefined at
     a zero reference and is reported as None. A pass is not solver validation.
     """
     try:
         expected = reference(benchmark, parameters)
-        observed = finite_number(observed, "observed")
+        unit = BENCHMARKS[benchmark].output_unit
+        observed = to_si(observed, unit, label="observed")
         rtol = finite_number(rtol, "rtol")
-        atol = finite_number(atol, "atol")
+        atol = to_si(atol, unit, difference=True, label="atol")
         if min(rtol, atol) < 0:
             raise ValueError("tolerances must be nonnegative")
         error = finite_number(abs(observed - expected), "absolute error")

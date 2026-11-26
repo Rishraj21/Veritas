@@ -1,10 +1,12 @@
 """Command line interface: exit 0 pass, 1 comparison failure, 2 invalid input."""
 import argparse
+import csv
 import json
 import sys
 from pathlib import Path
 from .benchmarks import BENCHMARKS
 from .core import CheckError, check_case
+from .inputs import read_csv
 
 
 def _reject_constant(value):
@@ -26,7 +28,7 @@ def main(argv=None):
     subs.add_parser("list", help="List available benchmarks")
     describe = subs.add_parser("describe", help="Show benchmark parameters and assumptions")
     describe.add_argument("benchmark", choices=sorted(BENCHMARKS))
-    validate = subs.add_parser("validate", help="Evaluate a JSON case or case array")
+    validate = subs.add_parser("validate", help="Evaluate JSON or CSV benchmark cases")
     validate.add_argument("file", type=Path)
     validate.add_argument("--json", action="store_true", help="Output machine-readable report")
     args = parser.parse_args(argv)
@@ -41,8 +43,11 @@ def main(argv=None):
             print(f"  {name} [{p.unit}]: {p.description}")
         return 0
     try:
-        payload = json.loads(args.file.read_text(encoding="utf-8"), parse_constant=_reject_constant, object_pairs_hook=_unique_object)
-        cases = payload if isinstance(payload, list) else [payload]
+        if args.file.suffix.lower() == ".csv":
+            cases = read_csv(args.file)
+        else:
+            payload = json.loads(args.file.read_text(encoding="utf-8"), parse_constant=_reject_constant, object_pairs_hook=_unique_object)
+            cases = payload if isinstance(payload, list) else [payload]
         if not cases:
             raise CheckError("At least one case is required")
         results = []
@@ -61,7 +66,7 @@ def main(argv=None):
                 print(f"{'PASS' if r['passed'] else 'FAIL'} {r['id']} ({r['benchmark']}): observed={r['observed']:.8g}, reference={r['expected']:.8g} {r['unit']}, abs_error={r['absolute_error']:.3g}, limit={r['allowed_error']:.3g}")
             print(f"{passed}/{len(results)} checks passed. Review benchmark assumptions before interpreting results.")
         return 0 if passed == len(results) else 1
-    except (OSError, UnicodeError, ValueError, TypeError) as exc:
+    except (OSError, UnicodeError, ValueError, TypeError, csv.Error, OverflowError) as exc:
         print(f"veritas: {exc}", file=sys.stderr)
         return 2
 

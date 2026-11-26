@@ -2,6 +2,7 @@
 from dataclasses import dataclass
 from math import exp, pi, sqrt, tanh, isfinite
 from typing import Callable, Mapping
+from .units import to_si
 
 
 @dataclass(frozen=True)
@@ -131,7 +132,7 @@ def reference(name: str, parameters: Mapping[str, float]) -> float:
         raise ValueError(f"Parameter mismatch: missing={sorted(missing)}, unexpected={sorted(extra)}")
     p = {}
     for key, definition in spec.parameters.items():
-        v = finite_number(parameters[key], key)
+        v = to_si(parameters[key], definition.unit, label=key)
         if definition.minimum is not None and (v < definition.minimum or (definition.strict and v == definition.minimum)):
             relation = ">" if definition.strict else ">="
             raise ValueError(f"{key} must be {relation} {definition.minimum}")

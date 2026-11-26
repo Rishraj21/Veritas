@@ -16,3 +16,6 @@ jobs:
       - run: python -m pip install '.[test]'
       - run: python -m pytest -q
       - run: veritas validate examples/passing.json
+
+      - run: veritas validate examples/beam_units.csv --json
+      - run: veritas validate examples/beam_units.json --json
