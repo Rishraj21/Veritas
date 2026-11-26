@@ -108,6 +108,19 @@ print(x, iterative.converged, p(5))
 
 Thomas elimination uses three diagonal arrays, not a dense matrix. It requires safe pivots; iterative methods do not guarantee convergence. Reuse the factors or interpolator for repeated queries. Run `python examples/structured_solvers.py` to compare measured allocations and residuals.
 
+### One-dimensional PDE foundation
+
+```python
+from math import sin, pi
+from veritas.math import heat_1d, poisson_1d
+
+x, u = poisson_1d(lambda x: 2, cells=100)
+result = heat_1d(lambda x: sin(pi*x), diffusivity=0.1,
+                 duration=0.1, cells=100, steps=100, store_every=100)
+```
+
+Uniform grids, constant coefficients and fixed Dirichlet boundaries only. The implicit schemes reuse a tridiagonal factorization; output retention is configurable. See the numerical methods ledger and `python examples/diffusion_memory.py` for the measured allocation comparison.
+
 ## Engineering curriculum
 
 The [roadmap](ROADMAP.md) defines the staged expansion from introductory fluid mechanics through CFD, solids, FEA, thermal sciences and robotics. Phase 0 is the [numerical methods foundation](docs/curriculum/numerical-methods.md), followed by the [fluid mechanics coverage plan](docs/curriculum/fluid-mechanics.md). These are planned capabilities, not claims of current coverage.

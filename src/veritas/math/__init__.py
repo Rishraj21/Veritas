@@ -18,3 +18,6 @@ __all__ += ["LUFactor", "LinearResult", "lu_factor", "solve_linear",
 from .banded import Tridiagonal, TridiagonalFactor, IterativeResult, stationary_solve
 from .interpolation import LinearInterpolator, NewtonInterpolator
 __all__ += ["Tridiagonal", "TridiagonalFactor", "IterativeResult", "stationary_solve", "LinearInterpolator", "NewtonInterpolator"]
+
+from .pde import HeatResult, poisson_1d, heat_1d
+__all__ += ["HeatResult", "poisson_1d", "heat_1d"]

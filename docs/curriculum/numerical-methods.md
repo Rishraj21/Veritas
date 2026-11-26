@@ -7,10 +7,10 @@ Scope reference: T. A. Driscoll and R. J. Braun, Fundamentals of Numerical Compu
 | NM01 | Scalar roots | bisection, newton, secant | Implemented; CI passed at 5fe413c |
 | NM02 | Quadrature | trapezoidal, midpoint, simpson, simpson38 | Implemented; CI passed at 5fe413c |
 | NM03 | Differentiation | derivative (forward/backward/central), second_derivative | Implemented; CI passed at 5fe413c |
-| NM04 | Interpolation | one-shot and reusable linear/Newton interpolators; spline pending | Partial; new CI required |
-| NM05 | Linear algebra | lu_factor, solve_linear, residual/backward error, optional infinity condition number; tridiagonal factorization, Jacobi/Gauss-Seidel; general sparse and eigenvalues pending | Partial; new CI required |
+| NM04 | Interpolation | one-shot and reusable linear/Newton interpolators; spline pending | Partial; CI passed at 1e1d093 |
+| NM05 | Linear algebra | lu_factor, solve_linear, residual/backward error, optional infinity condition number; tridiagonal factorization, Jacobi/Gauss-Seidel; general sparse and eigenvalues pending | Partial; CI passed at 1e1d093 |
 | NM06 | ODE | solve_ivp: Euler, midpoint RK2, Heun RK2, classical RK4; adaptive and stiff methods pending | Partial; CI passed at b67e284 |
-| NM07 | PDE | FDM/FVM prototypes, stability, manufactured solutions | Planned |
+| NM07 | PDE | 1D Poisson and heat equation; explicit, backward Euler, Crank-Nicolson; fixed Dirichlet boundaries | Partial; local tests passed, hosted CI pending |
 | NM08 | Numerical error | observed convergence, error norms, roundoff, uncertainty | Discrete error norms and scalar ODE stability added; existing three-grid convergence; uncertainty pending |
 | NM09 | Optimization | bounded scalar minimization, constrained optimization interfaces | Planned |
 | NM10 | Shared infrastructure | SI conversion, validation, result metadata, property provenance | Partial |
@@ -63,3 +63,13 @@ Jacobi replaces every component using the previous iterate. Gauss-Seidel uses up
 A reusable linear interpolator validates and snapshots the nodes once, then uses binary search for O(log n) queries with constant auxiliary space. A reusable Newton interpolator precomputes O(n^2) divided differences once with O(n) storage, then uses nested evaluation in O(n) per query. High-degree interpolation can be ill-conditioned even with exact coefficients; local linear interpolation is often safer for tabulated physical properties. No extrapolation is implicit.
 
 Tests compare banded solutions with pivoted dense LU and known solutions, exercise invalid pivots and nonconvergence, check a 10,000-unknown memory regression, and verify interpolation exactness and reusable data snapshots. Run python examples/structured_solvers.py for measured timings, traced peak Python allocations and residuals. The dense path includes dense construction; the structured paths reuse a previously constructed banded matrix; measurements are not equivalent end-to-end timings and do not include native allocations. The primary benefit is structural complexity reduction, not a guaranteed speedup on all problems.
+
+## Finite-difference PDE foundation
+
+For -u''=f, the interior stencil is -u_(i-1)+2u_i-u_(i+1)=dx^2*f_i. Constant prescribed endpoint values enter the right-hand side. For u_t=alpha*u_xx, the theta method combines the old-time Laplacian with weight 1-theta and new-time Laplacian with weight theta. theta=0 is FTCS, theta=1 backward Euler, theta=1/2 Crank-Nicolson. The latter two reuse a single Thomas factorization. On the uniform grid the diffusion number is r=alpha*dt/dx^2; FTCS enforces r<=1/2. The implicit methods are linearly stable for this diffusion model, but large r can impair accuracy and Crank-Nicolson can oscillate. Smooth compatible data yield second-order spatial truncation; time truncation is first order for FTCS/backward Euler and second order for Crank-Nicolson.
+
+Theory reference: Driscoll and Braun, Fundamentals of Numerical Computation, chapter on diffusion equations (https://fncbook.com/). Original implementation. Work O(N) for Poisson and O(N*T) for T diffusion steps; O(N) working storage plus retained output O(N*(1+ceil(T/k))) for store_every=k. Fixed Dirichlet only, constant diffusivity, no source in transient model, uniform grid, real scalars, no error controller. The initial callable is sampled only on interior nodes; compatibility with imposed boundary values is the caller's responsibility. Neumann/Robin, multidimensional and variable-coefficient models remain pending.
+
+Local tests: 13 existing structured-solver/interpolation tests and 10 new PDE tests passed in a reconstructed local subset; the four source dependency blobs and existing test blob matched the GitHub snapshot. Full previous CI passed. New tests cover a quadratic exact solution, second-order spatial refinement, sine decay, nonzero fixed boundary conditions, output retention and invalid stability settings. Hosted CI for this commit remains to be checked.
+
+Local allocation comparison: 500 cells, 200 steps, Crank-Nicolson, initial sin(pi*x), diffusivity 0.1, duration 0.1. Full retention: 201 states, 3306332 peak traced bytes, 0.625 s; endpoints only: 2 states, 118640 peak traced bytes, 0.593 s. Both final maximum absolute errors against the analytic solution were 2.923662462e-7. Single runs under tracemalloc; not general performance claims. Reproduce with python examples/diffusion_memory.py.
