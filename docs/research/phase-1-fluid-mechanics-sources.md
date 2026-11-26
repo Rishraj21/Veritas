@@ -86,3 +86,8 @@ No full commercial textbook has been read cover-to-cover in this review. The two
 ## Substantive reading follow-up (2026-11-27)
 
 See [reading log 01](phase-1-reading-notes-01.md) for the actual selected textbook sections reviewed, access failures, independently derived hydrostatic models, and sandbox cross-checks. Bar-Meir B05 is now section-inspected for selected properties, statics and integral balances, not fully read. Add Graebel (2001 commercial preview), Liburdy (2021 selected indexed excerpts), and Rapp (2024 abstract/contents only) to the book bibliography. The four commercial core textbooks remain T/M as previously recorded. The current OpenStax chapter page lists CC BY-NC-SA rather than the earlier CC BY statement; consult the actual edition license and do not redistribute source text.
+
+
+## Open-access workaround and second reading log
+
+[Reading log 02](phase-1-reading-notes-02.md) records Deville's publisher-hosted full-text textbook, Liburdy's accessible PDF, Rapp's open-book access limitations, IIT Bombay textbook companions, actual equation-level reading and an independently executed Blasius numerical check. Commercial source statuses are unchanged; open alternatives remove the requirement to possess the exact editions before making progress.

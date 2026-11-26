@@ -1,0 +1,40 @@
+# Phase 1 reading log 02 — open full-text access and equation audit
+
+2026-11-27. Workaround: use publisher-authorized open textbooks for derivations, official technical manuals for application ranges, and independently recomputed example cases. A commercial-book companion is not a copy of the book. No subscription circumvention or third-party source code copied into the MIT package.
+
+## Access established
+
+| Reference | Access / status |
+|---|---|
+| Michel O. Deville, An Introduction to the Mechanics of Incompressible Fluids (Springer, 2022), ISBN 978-3-031-04683-4 | [Official open textbook, 325 numbered pages](https://link.springer.com/book/10.1007/978-3-031-04683-4). Full chapter HTML accessible; specific sections inspected below, not all pages read. |
+| James Liburdy, Intermediate Fluid Mechanics (Oregon State, 2021) | [Official full PDF](https://open.oregonstate.education/intermediate-fluid-mechanics/open/download?type=pdf), [institutional alternative](https://openlibrary-repo.ecampusontario.ca/jspui/handle/123456789/844). Full PDF text searchable, selected Ch. 9 section inspected (momentum thickness, equations 9.4–9.7); screenshot of page index 112 failed, no visual review claimed. CC BY-NC-SA 4.0; do not copy text/figures/code into MIT project. |
+| Christoph Rapp, Hydraulics in Civil Engineering (Springer, 2024) | [Official open book](https://link.springer.com/book/10.1007/978-3-031-54860-4), [government-hosted PDF](https://vista.gov.vn/vn-uploads/newbook/2025_09/hydraulics-in-civil-engineering.pdf). CC BY 4.0. Web extraction yielded front matter/contents only, screenshot failed. Chapter abstracts for statics, momentum and steady pipe flow accessible but no upgrade to full chapter reading. |
+| IIT Bombay FOSSEE Python Textbook Companion | [Çengel & Cimbala](https://tbc-python.fossee.in/book-details/446/) (ISBN 978-0-07-070034-5; 14 chapter notebooks listed), [Fox & McDonald](https://tbc-python.fossee.in/book-details/431/), [Munson et al.](https://tbc-python.fossee.in/book-details/14/). These are independently contributed example computations, not full original books. Çengel Ch. 8 and 12 selected notebook code inspected; others catalog only. CC BY-SA 4.0 on companion site. Recompute independently, no copying. |
+| IIT teaching resources | [IIT Delhi lecture notes index](https://web.iitd.ac.in/~pnair/teaching/fm/) (indexed, direct fetch timed out), [NPTEL IIT Kanpur fluid mechanics](https://www.nptel.ac.in/courses/112104118), [IIT Kharagpur fluid mechanics](https://nptel.ac.in/courses/112105171), [turbomachinery](https://nptel.ac.in/courses/112106200). Syllabus/lecture index only in this round. |
+
+For exact commercial editions, BIT Mesra [library facilities](https://bitmesra.ac.in/display/content/1/361) and [research support](https://bitmesra.ac.in/Other-Department-Pages/content/1/130/549) offer institutional access subject to eligibility and holdings. Specific title entitlements not verified. The [library usage policy](https://bitmesra.ac.in/UploadedDocuments/adminlib/files/Online%20Usage%20Policy.pdf) prohibits systematic full-book downloads; read authorized individual sections within policy. No need for these editions to block the open-text implementation.
+
+## Substantive sections inspected and decisions
+
+- Deville [Ch. 1 §1.2.2](https://link.springer.com/chapter/10.1007/978-3-031-04683-4_1): equations 1.9–1.29. FM03: material derivative follows the particle, not a fixed spatial location. For velocity gradient J_ij=partial u_i/partial x_j use acceleration u_t+J*u, divergence trace(J), strain symmetric part, spin antisymmetric part. Test solid rotation and simple shear independently.
+- Deville [Ch. 2 §§2.1–2.4](https://link.springer.com/chapter/10.1007/978-3-031-04683-4_2): equations 2.1–2.25, rank and dimensional invariance, pump similarity. FM06/11: exact rational nullspace, normalize basis to primitive integer exponents, do not pretend basis is unique. Deville uses squared Froude; Veritas will use U/sqrt(gL), explicitly documenting the distinction. Pump groups Q/(omega D^3), delta_p/(rho omega^2 D^2), Re=omega D^2/nu. Similarity requires matching relevant groups and geometry, not just one ratio.
+- Deville [Ch. 3 §§3.1–3.2 selected passages](https://link.springer.com/chapter/10.1007/978-3-031-04683-4_3), equations 3.12–3.17 and circular Poiseuille introduction; transient/pulsatile sections indexed but not fully reviewed. FM07: derive combined planar profile from mu*u''=-G with u(0)=U0 and u(h)=U1. u=U0+(U1-U0)y/h+G*y*(h-y)/(2mu). Q per unit width=h*(U0+U1)/2+G*h^3/(12mu); tau=mu*(U1-U0)/h+G*(h-2y)/2. Circular profile G*(R-r)*(R+r)/(4mu) avoids near-wall cancellation. Signed flow and wall stress; clarify stress tensor vs traction orientation. Analytic models need no mesh or matrix.
+- Deville [Ch. 4 §4.1](https://link.springer.com/chapter/10.1007/978-3-031-04683-4_4), vorticity and circulation: use curl and oriented line/surface integrals. FM03: rigid rotation omega_z=2*angular_speed; zero curl locally does not imply zero circulation around a singular vortex excluded from domain.
+- Deville [Ch. 6 §6.3.2](https://link.springer.com/chapter/10.1007/978-3-031-04683-4_6), equations 6.31–6.40. FM05: planar source u=q*x/(2pi*r^2), v=q*y/(2pi*r^2) and vortex u=-Gamma*y/(2pi*r^2), v=Gamma*x/(2pi*r^2). Source strength is volume flow per unit span, circulation signed counterclockwise. Reject singular point; use atan2 for angular potential/streamfunction with documented branch cut.
+- Deville [Ch. 7 §7.2](https://link.springer.com/chapter/10.1007/978-3-031-04683-4_7), equations 7.53–7.57, and Liburdy Ch. 9 equations 9.4–9.7: FM10. Blasius f'''+f*f''/2=0, eta=y*sqrt(U/(nu*x)), f(0)=f'(0)=0, f'(infinity)=1. Use shooting or scaling; integrate displacement and momentum thicknesses as augmented ODE states rather than retain a whole velocity profile when only integral outputs required. Cf_local=2*f''(0)/sqrt(Re_x), Cf_average=4*f''(0)/sqrt(Re_L) for the ideal laminar flat plate. Not a turbulent or separated-flow model.
+- FOSSEE Çengel [Ch. 8 notebook](https://tbc-python.fossee.in/convert-notebook/Fluid_Mechanics-Fundamentals_%26_Applications/Chapter08_2.ipynb) selected pipe sizing example contains intermediate values taken from another solver rather than independently computed. [Ch. 12 notebook](https://tbc-python.fossee.in/convert-notebook/Fluid_Mechanics-Fundamentals_%26_Applications/Chapter12_3.ipynb) selected critical flow example uses rounded table values. Useful candidate fixtures, not trustworthy code or authoritative constants. Derive and solve independently, compare with tolerance appropriate to source rounding.
+
+## Actual independent sandbox cross-check
+
+Executed SciPy solve_ivp with rtol=1e-10, atol=1e-12, brentq shooting bracket [0.3,0.4], and adaptive quadrature of the dimensionless velocity deficits. Synthetic zero-pressure-gradient flat-plate problem, no source code copied.
+
+| Truncated eta endpoint | f''(0) | eta at f'=0.99 | delta*/sqrt(nu*x/U) | theta/sqrt(nu*x/U) | Shape factor |
+|---:|---:|---:|---:|---:|---:|
+| 8 | 0.332059191727 | 4.90977999458 | 1.72075997159 | 0.664093902636 | 2.59113954331 |
+| 12 | 0.332057336208 | 4.90998951339 | 1.72078765755 | 0.664114672436 | 2.59110019544 |
+
+The computed 99% thickness coefficient differs from Deville's printed/extracted value 4.99 in eq. 7.56 under the displayed normalization. Do not hardcode that value; document the definition, use independently converged numerical reference, and seek another source. Truncation endpoint matters; the numerical values are not certified bounds. This check used dense output for independent verification, not a memory-optimized production implementation.
+
+## Next coverage
+
+Open full-text sources establish an alternative to buying or obtaining the exact commercial editions. They do not establish that all Phase 1 material has been read. Pipe empirical correlations, hydraulic measurement ranges, open channels, compressible shocks and uncertainty still require substantive source reviews. No new production calculator code in this documentation commit.
