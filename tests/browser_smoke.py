@@ -14,6 +14,12 @@ try:
         browser=p.chromium.launch(headless=True)
         page=browser.new_page()
         page.goto(f'http://127.0.0.1:{server.server_port}/')
+        page.select_option('#fluid-model','density')
+        page.locator('#fluid-form button').click()
+        assert page.locator('#fluid-output').inner_text()=='1000 kg/m³'
+        page.select_option('#fluid-model','hydrostatic_pressure')
+        page.locator('#fluid-form button').click()
+        assert page.locator('#fluid-output').inner_text()=='19613.3 Pa'
         for method in ('multigrid','cg','wasm-cg'):
             page.select_option('#grid','63')
             page.select_option('#method',method)
