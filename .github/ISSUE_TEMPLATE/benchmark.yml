@@ -1,0 +1,19 @@
+name: Benchmark proposal
+description: Propose an independently verifiable engineering benchmark
+title: '[Benchmark] '
+body:
+  - type: textarea
+    attributes:
+      label: Engineering problem and use case
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Equations, assumptions, units and reference source
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Independent expected result and tests
+    validations:
+      required: true

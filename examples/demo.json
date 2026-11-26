@@ -1,0 +1,5 @@
+[
+  {"id":"laminar-pipe","benchmark":"pipe_flow","parameters":{"pressure_drop":1000,"radius":0.001,"viscosity":0.001,"length":1},"observed":3.94e-7,"rtol":0.01},
+  {"id":"beam-tip","benchmark":"cantilever_tip","parameters":{"force":300,"length":2,"youngs_modulus":200000000000,"second_moment":0.000001},"observed":0.0041,"rtol":0.01},
+  {"id":"thermal-wall","benchmark":"slab_conduction","parameters":{"conductivity":2,"area":3,"thickness":0.1,"hot_temperature":310,"cold_temperature":300},"observed":600}
+]
