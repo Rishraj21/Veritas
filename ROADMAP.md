@@ -1,6 +1,6 @@
 # Veritas engineering curriculum roadmap
 
-Status: approved direction from maintainer; proposed technical refinements and gates below. This is a staged development plan, not a claim of completed coverage or textbook review.
+Status: approved direction and expanded subject scope from maintainer; technical release gates below. This is a staged development plan, not a claim of completed coverage or textbook review.
 
 ## Mission
 
@@ -26,7 +26,31 @@ SI units and dimension checks; material and fluid properties with provenance and
 | 10 | Refrigeration and cooling | Vapor compression/absorption, psychrometrics, cooling loads, component sizing and refrigerant property backends; distinguish estimates from code-compliant design |
 | 11 | Robotics | Rigid-body kinematics, rotations, Jacobians, dynamics, trajectories, control, estimation and simulation interfaces |
 
-Keep the user's order, with prerequisites pulled forward when necessary. Proposed additions after or alongside the curriculum: engineering statics/dynamics, mechanical vibrations and controls before robotics, turbomachinery as a continuation of fluids, machine design/fatigue, tribology, and uncertainty/optimization as shared tools. Do not expand scope until the first fluid-mechanics milestone meets its release gate.
+## Approved additional subjects
+
+These are first-class curriculum commitments, not optional future ideas. Preserve the original eleven phase identifiers; insert the following prerequisite and extension modules at their dependency gates.
+
+| ID | Subject | Placement | Scope |
+|---|---|---|---|
+| F01 | Numerical methods | Shared foundation from phase 1; develop before CFD and FEA as needed | Root finding, interpolation, quadrature, linear systems, eigenvalues, ODEs, PDE discretization, stability, error and convergence |
+| F02 | Engineering mechanics | Before phase 3; rigid-body dynamics before robotics | Statics, free-body diagrams, equilibrium, trusses, friction, centroids, moments of inertia, kinematics, kinetics, impulse and energy |
+| F03 | Engineering optimization | Shared foundation; full module after basic numerical methods and domain models | Sensitivity, constrained/unconstrained optimization, multiobjective tradeoffs, uncertainty, reproducibility and model limitations |
+| E01 | Turbomachinery | Introductory coverage in phase 1; full extension after phase 6 and basic CFD | Velocity triangles, similarity, pumps, fans, compressors, turbines, performance maps and stage efficiency |
+| E02 | Mechanical vibrations | Before phase 9 and phase 11 | Free/forced and damped vibration, SDOF/MDOF systems, modal analysis, frequency response, isolation, continuous systems |
+| E03 | Control systems | Before phase 11 | Transfer functions, state-space, stability, PID, frequency response, discrete control, controllability and observability |
+| E04 | Tribology | After phases 3 and 5; numerical lubrication after basic CFD | Contact mechanics, friction, wear, roughness, lubrication, Reynolds equation, bearing performance and correlation limits |
+| E05 | Machine design | After phase 3, with dependencies on tribology and vibrations for advanced topics | Shafts, springs, fasteners, gears, bearings, fatigue, failure criteria, design margins and standards-aware applicability |
+
+Do not turn design calculations into unsupported certification or reproduce protected standards or property tables. Use legally accessible references and document assumptions. Pull forward only prerequisites needed by the active phase. Introductory fluid mechanics remains the first release milestone; no parallel expansion into every subject before it is credible.
+
+## Dependency gates
+
+- Before basic CFD: numerical methods and required thermodynamic concepts.
+- Before SOM: engineering statics; before FEA: SOM and numerical linear algebra.
+- Before advanced CFD/HMT and refrigeration: thermodynamics and transport prerequisites.
+- Before advanced FEA: dynamics and vibrations, alongside basic FEA.
+- Before robotics: rigid-body mechanics, vibrations, numerical methods and control systems.
+- Turbomachinery, tribology and machine design extend existing models rather than duplicating them.
 
 ## Architecture proposal
 
