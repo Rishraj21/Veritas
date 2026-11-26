@@ -24,3 +24,6 @@ __all__ += ["HeatResult", "poisson_1d", "heat_1d"]
 
 from .adaptive import AdaptiveResult, rk23
 __all__ += ["AdaptiveResult", "rk23"]
+
+from .krylov import CGResult, conjugate_gradient, PoissonStencil2D
+__all__ += ["CGResult", "conjugate_gradient", "PoissonStencil2D"]

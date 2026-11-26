@@ -134,6 +134,19 @@ print(r.y[-1], r.accepted, r.rejected, r.evaluations)
 
 Embedded RK3(2) with local error control and reused endpoint derivatives. Nonstiff problems only; no guaranteed global error bound. See the numerical methods ledger and `python examples/adaptive_memory.py`.
 
+### Matrix-free conjugate gradient
+
+```python
+from veritas.math import conjugate_gradient, PoissonStencil2D
+
+a = PoissonStencil2D(100, 100)
+result = conjugate_gradient(a, (1.0 for _ in range(10000)))
+assert result.converged
+print(result.residual_l2)
+```
+
+Packed buffers and an in-place operator API avoid matrix assembly and iteration history. CG is only for symmetric positive definite systems; the example uses an unscaled discrete Laplacian with homogeneous Dirichlet conditions. See the ledger and `python examples/matrix_free_memory.py` for the measured memory/runtime trade-off.
+
 ## Engineering curriculum
 
 The [roadmap](ROADMAP.md) defines the staged expansion from introductory fluid mechanics through CFD, solids, FEA, thermal sciences and robotics. Phase 0 is the [numerical methods foundation](docs/curriculum/numerical-methods.md), followed by the [fluid mechanics coverage plan](docs/curriculum/fluid-mechanics.md). These are planned capabilities, not claims of current coverage.
