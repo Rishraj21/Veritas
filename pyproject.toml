@@ -3,7 +3,7 @@ requires = ["setuptools>=77"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "veritas"
+name = "veritas-eng"
 version = "0.1.0"
 description = "Solver-independent analytical checks for engineering simulations"
 readme = "README.md"

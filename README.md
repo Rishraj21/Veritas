@@ -6,7 +6,7 @@ Veritas compares scalar outputs from a simulation with transparent closed-form r
 
 ## Quick start
 
-Python 3.10+; no runtime dependencies. Install from this repository (the unrelated package named veritas on PyPI is not this project):
+Python 3.10+; no runtime dependencies. The distribution is named `veritas-eng`; Python imports and the CLI remain `veritas`. Install from this repository:
 
 ```sh
 git clone https://github.com/Rishraj21/Veritas.git
@@ -74,4 +74,4 @@ python -m pip install -e '.[test]'
 python -m pytest -q
 ```
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for benchmark proposals, review standards and planned integrations. MIT licensed. This is an early prototype. The PyPI name is occupied by an unrelated package; install from GitHub only for now.
+See [CONTRIBUTING.md](CONTRIBUTING.md) for benchmark proposals, review standards and planned integrations. MIT licensed. This is an early prototype. The planned PyPI distribution is `veritas-eng`. It has not been published by this project yet; install from GitHub for now. Do not install the unrelated PyPI package `veritas`.
