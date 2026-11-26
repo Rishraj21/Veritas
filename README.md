@@ -67,9 +67,23 @@ Use `veritas describe <id>` for formulas, units and assumptions. See [benchmark 
 
 Run `python examples/radial_fvm.py` for a reproducible finite-volume pipe-flow solve on four grids, followed by an analytical comparison and observed convergence order. See [numerical example](docs/numerical-example.md). It is an educational numerical solver, not an OpenFOAM/CalculiX integration.
 
+## Numerical methods
+
+```python
+from veritas.math import bisection, simpson, derivative, linear_interpolate
+
+root = bisection(lambda x: x*x - 2, 1, 2)
+assert root.converged
+area = simpson(lambda x: x*x, 0, 1, n=100)
+slope = derivative(lambda x: x*x, 3, h=1e-4)
+value = linear_interpolate([0, 2], [10, 20], 1)
+```
+
+Scalar educational algorithms with explicit limits; see the numerical methods coverage ledger for assumptions and test status.
+
 ## Engineering curriculum
 
-The [roadmap](ROADMAP.md) defines the staged expansion from introductory fluid mechanics through CFD, solids, FEA, thermal sciences and robotics. The [fluid mechanics coverage plan](docs/curriculum/fluid-mechanics.md) is the first implementation target. These are planned capabilities, not claims of current coverage.
+The [roadmap](ROADMAP.md) defines the staged expansion from introductory fluid mechanics through CFD, solids, FEA, thermal sciences and robotics. Phase 0 is the [numerical methods foundation](docs/curriculum/numerical-methods.md), followed by the [fluid mechanics coverage plan](docs/curriculum/fluid-mechanics.md). These are planned capabilities, not claims of current coverage.
 
 ## Development
 
