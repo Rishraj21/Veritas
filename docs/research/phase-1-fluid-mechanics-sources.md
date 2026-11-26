@@ -81,3 +81,8 @@ Formula inventory below is an original synthesis and a candidate specification. 
 ## F. Known research gaps
 
 No full commercial textbook has been read cover-to-cover in this review. The two Bar-Meir books have been identified/indexed, not fully read; the LibreTexts main page failed to load directly. Full primary Colebrook/Moody papers and quantitative validity comparisons remain outstanding. Specialist boundary-layer, property, pump and instrument correlations require equation-level sources. This ledger establishes all fifteen topic families and a transparent route to implementation, not final coverage of every subtopic or experimental validation.
+
+
+## Substantive reading follow-up (2026-11-27)
+
+See [reading log 01](phase-1-reading-notes-01.md) for the actual selected textbook sections reviewed, access failures, independently derived hydrostatic models, and sandbox cross-checks. Bar-Meir B05 is now section-inspected for selected properties, statics and integral balances, not fully read. Add Graebel (2001 commercial preview), Liburdy (2021 selected indexed excerpts), and Rapp (2024 abstract/contents only) to the book bibliography. The four commercial core textbooks remain T/M as previously recorded. The current OpenStax chapter page lists CC BY-NC-SA rather than the earlier CC BY statement; consult the actual edition license and do not redistribute source text.
