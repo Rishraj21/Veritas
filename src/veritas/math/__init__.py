@@ -21,3 +21,6 @@ __all__ += ["Tridiagonal", "TridiagonalFactor", "IterativeResult", "stationary_s
 
 from .pde import HeatResult, poisson_1d, heat_1d
 __all__ += ["HeatResult", "poisson_1d", "heat_1d"]
+
+from .adaptive import AdaptiveResult, rk23
+__all__ += ["AdaptiveResult", "rk23"]

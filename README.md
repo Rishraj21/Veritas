@@ -121,6 +121,19 @@ result = heat_1d(lambda x: sin(pi*x), diffusivity=0.1,
 
 Uniform grids, constant coefficients and fixed Dirichlet boundaries only. The implicit schemes reuse a tridiagonal factorization; output retention is configurable. See the numerical methods ledger and `python examples/diffusion_memory.py` for the measured allocation comparison.
 
+### Adaptive ODE integration
+
+```python
+from veritas.math import rk23
+
+r = rk23(lambda t, y: -2*y, (0, 3), 1, rtol=1e-6,
+         atol=1e-9, store_every=100000)
+assert r.converged
+print(r.y[-1], r.accepted, r.rejected, r.evaluations)
+```
+
+Embedded RK3(2) with local error control and reused endpoint derivatives. Nonstiff problems only; no guaranteed global error bound. See the numerical methods ledger and `python examples/adaptive_memory.py`.
+
 ## Engineering curriculum
 
 The [roadmap](ROADMAP.md) defines the staged expansion from introductory fluid mechanics through CFD, solids, FEA, thermal sciences and robotics. Phase 0 is the [numerical methods foundation](docs/curriculum/numerical-methods.md), followed by the [fluid mechanics coverage plan](docs/curriculum/fluid-mechanics.md). These are planned capabilities, not claims of current coverage.
