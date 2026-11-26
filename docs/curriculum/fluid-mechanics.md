@@ -2,6 +2,8 @@
 
 ## Source strategy
 
+See the [Phase 1 research bibliography and topic evidence map](../research/phase-1-fluid-mechanics-sources.md) for the reviewed books, source access levels, technical references, model inventory and verification gates.
+
 Use the following publisher/course outlines to define breadth, then read accessible full chapters and independent references before implementing individual equations. These are coverage references, not a claim of full-text review.
 
 - Fox and McDonald's Introduction to Fluid Mechanics, 10th ed. (Wiley): https://www.wiley.com/en-us/shop/general-introductory-mechanical-engineering/fox-and-mcdonald%27s-introduction-to-fluid-mechanics-10th-edition-p-9781119603764
@@ -14,8 +16,8 @@ Use the following publisher/course outlines to define breadth, then read accessi
 
 | ID | Family | Planned calculator/model coverage | Status |
 |---|---|---|---|
-| FM01 | Properties and dimensions | Density, specific weight/gravity/volume, Newtonian shear, dynamic/kinematic viscosity, bulk modulus, compressibility, surface tension, Laplace pressure, capillary rise, dimensionless groups | Partial: scalar property models implemented; local tests passed |
-| FM02 | Hydrostatics | Hydrostatic pressure, gauge/absolute pressure, layered fluids, manometers, plane forces and centers of pressure, curved surface components, buoyancy, flotation, metacentric height, rigid-body acceleration/rotation | Partial: pressure, head, buoyancy implemented; local tests passed |
+| FM01 | Properties and dimensions | Density, specific weight/gravity/volume, Newtonian shear, dynamic/kinematic viscosity, bulk modulus, compressibility, surface tension, Laplace pressure, capillary rise, dimensionless groups | Partial: scalar property models implemented; local and hosted CI passed at ed4bfc8 |
+| FM02 | Hydrostatics | Hydrostatic pressure, gauge/absolute pressure, layered fluids, manometers, plane forces and centers of pressure, curved surface components, buoyancy, flotation, metacentric height, rigid-body acceleration/rotation | Partial: pressure, head, buoyancy implemented; local and hosted CI passed at ed4bfc8 |
 | FM03 | Kinematics | Velocity and acceleration fields, material derivatives, divergence, vorticity, circulation, strain-rate tensor, streamfunction, streamline integration | Planned |
 | FM04 | Integral balances | Mass flow, continuity, momentum forces on nozzles/bends/jets, reaction, torque, mechanical energy, shaft power, control-volume sign conventions | Planned |
 | FM05 | Inviscid flow | Euler and Bernoulli relations with assumptions, stagnation pressure, hydraulic/energy grade lines, ideal flow elements and superposition | Planned |
