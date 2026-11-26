@@ -2,11 +2,11 @@
 
 **Open-source engineering computation and simulation verification.**
 
-Veritas compares scalar outputs from a simulation with transparent closed-form reference solutions. It is intentionally not a solver, a certification system, or a replacement for experimental validation. A passing comparison applies only to the specified benchmark, assumptions and tolerance.
+Veritas compares scalar outputs from a simulation with transparent closed-form reference solutions. It also includes educational numerical solvers; it is not a certification system or a replacement for experimental validation. A passing comparison applies only to the specified benchmark, assumptions and tolerance.
 
 ## Quick start
 
-Python 3.10+; no runtime dependencies. The distribution is named `veritas-eng`; Python imports and the CLI remain `veritas`. Install from this repository:
+Python 3.10+; no mandatory runtime dependencies. Optional acceleration is available. The distribution is named `veritas-eng`; Python imports and the CLI remain `veritas`. Install from this repository:
 
 ```sh
 git clone https://github.com/Rishraj21/Veritas.git
@@ -146,6 +146,20 @@ print(result.residual_l2)
 ```
 
 Packed buffers and an in-place operator API avoid matrix assembly and iteration history. CG is only for symmetric positive definite systems; the example uses an unscaled discrete Laplacian with homogeneous Dirichlet conditions. See the ledger and `python examples/matrix_free_memory.py` for the measured memory/runtime trade-off.
+
+### Hybrid acceleration
+
+Install optional dependencies with `python -m pip install '.[jit]'` (or `.[accelerated]` without Numba).
+
+```python
+from veritas.math import poisson_operator, solve_sparse
+
+a = poisson_operator(32, 32, compiled=True)
+r = solve_sparse(a, [1.0]*1024, spd=True)
+assert r.converged
+```
+
+Sparse and matrix-free SciPy solvers, explicit SPD selection, BiCGSTAB-to-GMRES fallback and an optional Krylov-basis budget. See the [hybrid architecture](docs/development/hybrid-architecture.md) for scope, test evidence and remaining integrations.
 
 ## Engineering curriculum
 

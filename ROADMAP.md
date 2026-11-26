@@ -47,7 +47,11 @@ Phase 0 is the numerical and computational foundation. Introduce shared optimiza
 
 See [numerical methods coverage ledger](docs/curriculum/numerical-methods.md). Pull required thermodynamic concepts forward for introductory compressible flow. No parallel expansion into unrelated subjects before the foundation and fluid releases are credible.
 
-## Architecture proposal
+## Approved aggressive hybrid architecture
+
+See [architecture and integration gates](docs/development/hybrid-architecture.md). Keep dependency-free baseline, optional compiled backends, structure-aware sparse/matrix-free methods, double precision defaults, independent residual checks and explicit memory/accuracy tradeoffs. Integrate experimentally verified techniques incrementally; do not present research prototypes as production features.
+
+## Package architecture
 
 Keep a single Python distribution veritas-eng and namespace veritas. New numerical algorithms live under veritas.math; existing veritas.core, veritas.units and veritas.convergence remain modules to preserve compatibility. Domain subpackages such as veritas.fluids, veritas.cfd, veritas.solids, veritas.fea, veritas.heat, veritas.thermo and veritas.robotics; shared numerical/property layers. Existing analytical benchmark registry should call tested calculator functions rather than duplicate equations. Solvers and external adapters are separately named and optional. Use structured results and consistent units; maintain compatibility for current public API.
 
