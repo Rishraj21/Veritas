@@ -6,9 +6,11 @@ Veritas compares scalar outputs from a simulation with transparent closed-form r
 
 ## Quick start
 
-Python 3.10+; no runtime dependencies. From this source tree:
+Python 3.10+; no runtime dependencies. Install from this repository (the unrelated package named veritas on PyPI is not this project):
 
 ```sh
+git clone https://github.com/Rishraj21/Veritas.git
+cd Veritas
 python -m pip install .
 veritas list
 veritas describe cantilever_tip
@@ -61,6 +63,10 @@ The acceptance rule is `abs(observed - reference) <= atol + rtol * abs(reference
 
 Use `veritas describe <id>` for formulas, units and assumptions. See [benchmark notes](docs/benchmarks.md) for source references and scope. Example observations are synthetic, not measured solver output.
 
+## Independent numerical example
+
+Run `python examples/radial_fvm.py` for a reproducible finite-volume pipe-flow solve on four grids, followed by an analytical comparison and observed convergence order. See [numerical example](docs/numerical-example.md). It is an educational numerical solver, not an OpenFOAM/CalculiX integration.
+
 ## Development
 
 ```sh
@@ -68,4 +74,4 @@ python -m pip install -e '.[test]'
 python -m pytest -q
 ```
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for benchmark proposals, review standards and planned integrations. MIT licensed. This is an early prototype; the Python distribution name has not been checked for PyPI availability.
+See [CONTRIBUTING.md](CONTRIBUTING.md) for benchmark proposals, review standards and planned integrations. MIT licensed. This is an early prototype. The PyPI name is occupied by an unrelated package; install from GitHub only for now.
