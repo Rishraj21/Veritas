@@ -20,6 +20,12 @@ try:
         page.select_option('#fluid-model','hydrostatic_pressure')
         page.locator('#fluid-form button').click()
         assert page.locator('#fluid-output').inner_text()=='19613.3 Pa'
+        page.select_option('#fluid-model','plane_force')
+        page.locator('#fluid-form button').click()
+        assert page.locator('#fluid-output').inner_text()=='177720 N'
+        page.select_option('#fluid-model','floating_fraction')
+        page.locator('#fluid-form button').click()
+        assert page.locator('#fluid-output').inner_text()=='0.8 1'
         for method in ('multigrid','cg','wasm-cg'):
             page.select_option('#grid','63')
             page.select_option('#method',method)

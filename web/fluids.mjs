@@ -1,3 +1,4 @@
+import {staticsModels} from './statics.mjs';
 // Scalar SI models: no dependencies, no worker startup, O(1) workspace.
 const finite=x=>{if(typeof x!=='number'||!Number.isFinite(x))throw Error('Expected finite number');return x;};
 const pos=x=>{if(finite(x)<=0)throw Error('Expected positive number');return x;};
@@ -17,7 +18,7 @@ const models=[
  ['hydrostatic_pressure','Hydrostatic pressure','Pa','p = p₀ + ρgh',[['Density','kg/m³',1000],['Depth','m',2],['Surface pressure','Pa',0],['Gravity','m/s²',9.80665]],(r,h,p,g)=>finite(p)+gamma(r,g)*nonneg(h)],
  ['pressure_head','Pressure head','m','h = p / (ρg)',[['Pressure','Pa',19613.3],['Density','kg/m³',1000],['Gravity','m/s²',9.80665]],(p,r,g)=>finite(p)/gamma(r,g)],
  ['buoyancy','Buoyant force','N','F = ρgV',[['Density','kg/m³',1000],['Displaced volume','m³',.01],['Gravity','m/s²',9.80665]],(r,v,g)=>gamma(r,g)*nonneg(v)]
-];
+,...staticsModels];
 export const catalog=Object.freeze(models.map(([id,title,unit,formula,fields])=>Object.freeze({id,title,unit,formula,fields:Object.freeze(fields.map(f=>Object.freeze(f)))})));
 const functions=new Map(models.map(([id,,,,fields,fn])=>[id,{n:fields.length,fn}]));
 export function calculate(id,args){const m=functions.get(id);if(!m||!Array.isArray(args)||args.length!==m.n)throw Error('Unknown model or incorrect argument count');return finite(m.fn(...args));}
